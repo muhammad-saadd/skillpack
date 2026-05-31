@@ -152,7 +152,7 @@ for file in $FILES; do
 
   base=$(basename "$file" ".$ext")
   case "$FORMAT" in
-    json)  escaped=$(echo "$text" | sed 's/\\/\\\\/g; s/"/\\"/g; s/\t/\\t/g' | tr '\n' ' ')
+    json)  escaped=$(echo "$text" | awk '{gsub(/\\/, "\\\\"); gsub(/"/, "\\\""); gsub(/\t/, "\\t"); printf "%s ", $0}')
            output=$(printf '{"file":"%s","content":"%s"}' "$file" "$escaped") ;;
     csv)   output=$(echo "$text" | awk -F'\t+' '{ row=""; for(i=1;i<=NF;i++) { gsub(/^ +| +$/,"",$i); row=row sep "\"" $i "\""; sep="," } print row }') ;;
     txt)   output="$text" ;;

@@ -89,7 +89,7 @@ parse_resume() {
   local name=$(echo "$text" | head -1 | sed 's/^[[:space:]]*//')
   local email=$(echo "$text" | grep -oE '[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}' | head -1)
   local phone=$(echo "$text" | grep -oE '(\+?1[-.\s]?)?\(?[0-9]{3}\)?[-.\s]?[0-9]{3}[-.\s]?[0-9]{4}' | head -1)
-  local skills=$(echo "$text" | sed -n '/[Ss]kills\|[Tt]echnologies/,/^$/p' | grep -oE '[A-Z][a-zA-Z0-9+#.]+' | head -10 | tr '\n' ',' | sed 's/,$//')
+  local skills=$(echo "$text" | awk '/[Ss]kills|[Tt]echnologies/,/^$/' | grep -oE '[A-Z][a-zA-Z0-9+#.]+' | head -10 | tr '\n' ',' | sed 's/,$//')
   
   cat <<JSON
 {
