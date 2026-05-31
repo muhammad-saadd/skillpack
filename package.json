@@ -1,6 +1,6 @@
 {
   "name": "@muhammad-saadd/skillpack",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "AI-powered terminal skills that eliminate multi-click professional workflows. Pure POSIX shell scripts.",
   "bin": {
     "skillpack": "./bin/skillpack"
