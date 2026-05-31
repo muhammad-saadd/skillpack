@@ -1,6 +1,6 @@
 {
   "name": "@muhammad-saadd/skillpack",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "AI-powered terminal skills that eliminate multi-click professional workflows. Pure POSIX shell scripts.",
   "bin": {
     "skillpack": "./bin/skillpack"
@@ -16,11 +16,27 @@
     "test": "for f in bin/skillpack install.sh skills/*/index.sh; do bash -n \"$f\" || exit 1; done"
   },
   "keywords": [
-    "claude-code", "opencode", "codex-cli", "ai-skills", "cli-automation",
-    "mcp", "developer-tools", "productivity", "terminal", "skillpack",
-    "pdf-to-markdown", "data-wrangling", "code-scaffolding", "infra-generator",
-    "content-automation", "batch-rename", "finance-parser", "ai-workflow",
-    "posix-shell", "shell-scripts", "terminal-tools"
+    "claude-code",
+    "opencode",
+    "codex-cli",
+    "ai-skills",
+    "cli-automation",
+    "mcp",
+    "developer-tools",
+    "productivity",
+    "terminal",
+    "skillpack",
+    "pdf-to-markdown",
+    "data-wrangling",
+    "code-scaffolding",
+    "infra-generator",
+    "content-automation",
+    "batch-rename",
+    "finance-parser",
+    "ai-workflow",
+    "posix-shell",
+    "shell-scripts",
+    "terminal-tools"
   ],
   "license": "MIT",
   "repository": {
