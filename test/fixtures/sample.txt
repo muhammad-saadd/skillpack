@@ -1,0 +1,17 @@
+John Doe
+john.doe@example.com
++1 555-123-4567
+
+Summary
+Experienced software engineer with 8 years of experience.
+
+Work Experience
+Senior Engineer at Tech Corp (2020-Present)
+- Led team of 5 engineers
+- Built distributed systems
+
+Education
+BS Computer Science, University of Technology
+
+Skills
+Python, Go, Kubernetes, PostgreSQL, Redis

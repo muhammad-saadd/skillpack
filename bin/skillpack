@@ -1,7 +1,7 @@
 #!/bin/sh
 set -e
 
-SKILLPACK_DIR="$(cd "$(dirname "$0")/.." && pwd)"
+SKILLPACK_DIR="$(cd "$(dirname "$(readlink -f "$0")")/.." && pwd)"
 SKILLS_DIR="$SKILLPACK_DIR/skills"
 VERSION="1.0.0"
 

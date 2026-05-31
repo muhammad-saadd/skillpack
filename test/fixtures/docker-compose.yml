@@ -1,0 +1,11 @@
+services:
+  api:
+    image: myapp/api:latest
+    ports:
+      - "3000:3000"
+  web:
+    image: myapp/web:latest
+    ports:
+      - "80:80"
+  db:
+    image: postgres:16

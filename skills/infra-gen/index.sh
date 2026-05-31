@@ -69,8 +69,7 @@ generate_k8s() {
   awk -v ns="$NAMESPACE" '
     /^services:/ { in_services=1; next }
     /^[a-z]/ { in_services=0 }
-    in_services && /^[[:space:]]+[a-z]/ { gsub(/[:[:space:]]/, ""); service=$0; next }
-    in_services && /image:/ { gsub(/.*image:[[:space:]]*/, ""); image=$0; 
+    in_services && /image:/ { gsub(/.*image:[[:space:]]*/, ""); image=$0;
       print "---"
       print "apiVersion: apps/v1"
       print "kind: Deployment"
@@ -107,7 +106,8 @@ generate_k8s() {
       print "      targetPort: 80"
       print "  type: ClusterIP"
       print ""
-    }
+      next }
+    in_services && /^[[:space:]]+[a-z]/ { gsub(/[:[:space:]]/, ""); service=$0; next }
   ' "$file"
 }
 

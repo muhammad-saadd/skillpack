@@ -155,7 +155,7 @@ JD
 
 generate_onboarding() {
   local role="${ROLE:-Engineer}"
-  local start_date="${start:-$(date -d '+7 days' '+%Y-%m-%d' 2>/dev/null || date -v+7d '+%Y-%m-%d' 2>/dev/null || echo 'TBD')}"
+  local start_date="${START:-$(date -d '+7 days' '+%Y-%m-%d' 2>/dev/null || date -v+7d '+%Y-%m-%d' 2>/dev/null || echo 'TBD')}"
   
   cat <<ONBOARD
 # Onboarding Checklist — ${role}
