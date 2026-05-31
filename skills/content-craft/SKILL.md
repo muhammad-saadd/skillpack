@@ -4,7 +4,7 @@ version: 1.0.0
 description: Proofread, translate, summarize, repurpose content, extract action items, draft replies
 inputs: [md, txt, pdf, email]
 outputs: [md, txt]
-tools: [bash, read_file, write_file]
+tools: [bash, read_file, write_file, pdftotext, jq, awk, sed]
 ---
 
 ## What it does

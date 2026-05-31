@@ -4,7 +4,7 @@ version: 1.0.0
 description: Parse resumes to JSON, generate job descriptions, create onboarding checklists
 inputs: [pdf, docx, json]
 outputs: [json, csv, md]
-tools: [bash, read_file, write_file]
+tools: [bash, read_file, write_file, pdftotext, jq, awk, sed]
 ---
 
 ## What this skill does

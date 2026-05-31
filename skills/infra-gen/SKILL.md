@@ -4,7 +4,7 @@ version: 1.0.0
 description: Generate Kubernetes manifests, CI/CD pipelines, nginx/Apache configs, and Terraform templates from plain English
 inputs: [yaml, docker-compose, text]
 outputs: [yaml, hcl, conf]
-tools: [bash, read_file, write_file]
+tools: [bash, read_file, write_file, pdftotext, jq, awk, sed]
 ---
 
 ## What this skill does

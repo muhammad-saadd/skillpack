@@ -4,7 +4,7 @@ version: 1.0.0
 description: Generate unit tests, project scaffolds, READMEs, .env.example, API docs, changelogs, and TypeScript types
 inputs: [js, ts, json, env, directory]
 outputs: [js, ts, md, yml, env]
-tools: [bash, read_file, write_file]
+tools: [bash, read_file, write_file, pdftotext, jq, awk, sed]
 ---
 
 ## What this skill does

@@ -1,26 +1,22 @@
-#!/bin/bash
+#!/bin/sh
 set -e
 
 echo "⚡ Installing skillpack..."
 
-# Check for Node.js >= 18
-if ! command -v node &> /dev/null; then
-  echo "❌ Error: Node.js is required but not installed."
-  echo "   Install Node.js >= 18 from https://nodejs.org"
-  exit 1
-fi
+# Check for required tools
+check_tool() {
+  if ! command -v "$1" >/dev/null 2>&1; then
+    echo "⚠️  $1 not found. Some skills may need it."
+    echo "   $2"
+  fi
+}
 
-NODE_VERSION=$(node -v | sed 's/v//' | cut -d. -f1)
-if [ "$NODE_VERSION" -lt 18 ]; then
-  echo "❌ Error: Node.js >= 18 is required. Found v$(node -v)."
-  echo "   Update Node.js from https://nodejs.org"
-  exit 1
-fi
-
-echo "✓ Node.js $(node -v) detected"
+check_tool pdftotext "Install: sudo apt install poppler-utils"
+check_tool jq "Install: sudo apt install jq"
+check_tool convert "Install: sudo apt install imagemagick"
 
 # Try npm install first
-if command -v npm &> /dev/null; then
+if command -v npm >/dev/null 2>&1; then
   echo "Installing via npm..."
   npm install -g skillpack
   echo ""
@@ -40,8 +36,8 @@ INSTALL_DIR="$HOME/.local/share/skillpack"
 
 mkdir -p "$HOME/.local/bin"
 git clone --depth 1 "$REPO_URL" "$INSTALL_DIR"
-chmod +x "$INSTALL_DIR/bin/skillpack.js"
-ln -sf "$INSTALL_DIR/bin/skillpack.js" "$HOME/.local/bin/skillpack"
+chmod +x "$INSTALL_DIR/bin/skillpack"
+ln -sf "$INSTALL_DIR/bin/skillpack" "$HOME/.local/bin/skillpack"
 
 # Add to PATH if needed
 if ! echo "$PATH" | grep -q "$HOME/.local/bin"; then

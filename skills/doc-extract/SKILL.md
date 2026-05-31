@@ -4,7 +4,7 @@ version: 1.0.0
 description: Extract structured data from PDFs, DOCX, and images into markdown, CSV, JSON, or plain text
 inputs: [pdf, docx, png, jpg, jpeg, tiff, bmp]
 outputs: [markdown, csv, json, txt]
-tools: [bash, read_file, write_file]
+tools: [bash, read_file, write_file, pdftotext, jq, awk, sed]
 ---
 
 ## What this skill does

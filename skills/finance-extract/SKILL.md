@@ -4,7 +4,7 @@ version: 1.0.0
 description: Extract structured data from bank statements, invoices, and receipts into categorized reports
 inputs: [pdf, csv, xlsx]
 outputs: [csv, json, xlsx]
-tools: [bash, read_file, write_file]
+tools: [bash, read_file, write_file, pdftotext, jq, awk, sed]
 ---
 
 ## What this skill does

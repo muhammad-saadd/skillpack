@@ -10,7 +10,7 @@ Thanks for your interest in contributing! This guide will help you add new skill
 skills/
   your-skill-name/
     SKILL.md      # AI context file (required)
-    index.js      # Implementation (required)
+    index.sh      # POSIX shell implementation (required)
     README.md     # Documentation (required)
 ```
 
@@ -31,15 +31,17 @@ tools: [bash, read_file, write_file]
 
 Follow with sections: What this skill does, Trigger phrases (10-15), Usage examples, Steps, Output.
 
-### 3. index.js interface
+### 3. index.sh interface
 
-Every skill's `index.js` MUST:
+Every skill's `index.sh` MUST:
 
-- Be runnable as `node skills/your-skill/index.js [args]`
+- Start with `#!/bin/sh` and `set -e`
+- Be runnable as `skills/your-skill/index.sh [args]`
 - Accept `--help`, `--dry-run`, `--out <dir>`, `--format <fmt>`
-- Accept input as positional args (file path, glob, or stdin via `-`)
+- Accept input as positional args (file path, glob)
 - Print progress to stderr, results to stdout (pipeable)
 - Exit 0 on success, 1 on error with a clear message
+- Use only POSIX shell + standard Unix tools (awk, sed, grep, jq, etc.)
 - Handle errors gracefully with actionable messages
 
 ### 4. README.md template
@@ -58,30 +60,40 @@ Each skill README must include:
 - Directory names match skill names exactly
 - SKILL.md `name` field matches directory name
 
+## External Tool Requirements
+
+Some skills require external tools. List them in your skill's README:
+
+| Tool | Required by | Install |
+|------|-------------|---------|
+| `pdftotext` | doc-extract, finance-extract | `sudo apt install poppler-utils` |
+| `jq` | data-wrangle, file-ops | `sudo apt install jq` |
+| `imagemagick` | file-ops | `sudo apt install imagemagick` |
+| `docx2txt` or `pandoc` | doc-extract, people-ops | `sudo apt install docx2txt` |
+
 ## Testing Requirements
 
 Every skill needs at least one test:
 - Create a `test/` directory in the skill folder
 - Add fixture files (sample inputs)
-- Write tests using Node.js built-in `node:test`
+- Write a test script that exercises the skill
 - Tests should verify core functionality
 
 ## PR Checklist
 
 - [ ] SKILL.md has valid frontmatter
-- [ ] index.js handles `--help`, `--dry-run`, `--out`, `--format`
+- [ ] index.sh starts with `#!/bin/sh` and `set -e`
+- [ ] index.sh handles `--help`, `--dry-run`, `--out`, `--format`
 - [ ] README.md includes all required sections
-- [ ] At least one test passes
+- [ ] External tool dependencies are documented
 - [ ] No secrets or API keys in code
-- [ ] All files have proper `.gitignore` entries if needed
 
 ## Development Setup
 
 ```bash
 git clone https://github.com/muhammad-saadd/skillpack.git
 cd skillpack
-npm install
-skillpack --help
+./bin/skillpack --help
 ```
 
 ## Questions?

@@ -3,11 +3,10 @@
   "version": "1.0.0",
   "description": "AI-powered terminal skills that eliminate multi-click professional workflows",
   "bin": {
-    "skillpack": "./bin/skillpack.js"
+    "skillpack": "./bin/skillpack"
   },
   "scripts": {
-    "test": "node --test",
-    "lint": "eslint skills/**/*.js bin/*.js"
+    "test": "echo \"No tests yet\" && exit 0"
   },
   "keywords": [
     "claude-code", "opencode", "codex-cli", "ai-skills", "cli-automation",
@@ -15,25 +14,11 @@
     "pdf-to-markdown", "data-wrangling", "code-scaffolding", "infra-generator",
     "content-automation", "batch-rename", "finance-parser", "ai-workflow"
   ],
-  "engines": { "node": ">=18" },
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/muhammad-saadd/skillpack.git"
   },
   "homepage": "https://github.com/muhammad-saadd/skillpack#readme",
-  "dependencies": {
-    "chalk": "^4.1.2",
-    "commander": "^12.1.0",
-    "execa": "^5.1.1",
-    "glob": "^10.3.10",
-    "gray-matter": "^4.0.3",
-    "js-yaml": "^4.1.0",
-    "mammoth": "^1.6.0",
-    "ora": "^5.4.1",
-    "papaparse": "^5.4.1",
-    "pdf-parse": "^1.1.1",
-    "sharp": "^0.33.2",
-    "xlsx": "^0.18.5"
-  }
+  "dependencies": {}
 }

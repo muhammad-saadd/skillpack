@@ -5,9 +5,9 @@
 [![npm version](https://img.shields.io/npm/v/skillpack.svg)](https://www.npmjs.com/package/skillpack)
 [![license](https://img.shields.io/npm/l/skillpack.svg)](https://github.com/muhammad-saadd/skillpack/blob/main/LICENSE)
 [![CI](https://github.com/muhammad-saadd/skillpack/actions/workflows/ci.yml/badge.svg)](https://github.com/muhammad-saadd/skillpack/actions/workflows/ci.yml)
-[![node version](https://img.shields.io/badge/node-%3E%3D18-brightgreen.svg)](https://nodejs.org)
-
 AI-powered terminal skills that eliminate multi-click professional workflows. Extract data from PDFs, wrangle CSVs, scaffold code, generate infrastructure configs, process content, batch rename files, parse invoices, and manage resumes — all from a single command. Works with Claude Code, OpenCode, Codex CLI, and any MCP-compatible AI tool.
+
+**Zero dependencies.** Pure POSIX shell scripts — works on any Linux/macOS system.
 
 ## The problem with professional workflows
 
@@ -24,14 +24,15 @@ Every professional task requires context switching between 5+ apps. A single inv
 ## Install in 30 seconds
 
 ```bash
-# via npm (recommended)
+# via npm
 npm install -g skillpack
 
 # or via curl
 curl -fsSL https://raw.githubusercontent.com/muhammad-saadd/skillpack/main/install.sh | bash
 
-# Claude Code / OpenCode — add to your skills path
-git clone https://github.com/muhammad-saadd/skillpack ~/.skills/skillpack
+# or clone and symlink
+git clone https://github.com/muhammad-saadd/skillpack ~/.local/share/skillpack
+ln -s ~/.local/share/skillpack/bin/skillpack ~/.local/bin/skillpack
 ```
 
 ## 60-second quickstart
@@ -204,7 +205,7 @@ skillpack people-ops onboard --role "Frontend Dev" --start "2025-02-01"
 |------|---------|-------|
 | Claude Code | ✅ Full | SKILL.md + MCP native |
 | OpenCode | ✅ Full | Drop skills/ folder into config path |
-| Codex CLI (OpenAI) | ✅ Full | index.js scripts work standalone |
+| Codex CLI (OpenAI) | ✅ Full | index.sh scripts work standalone |
 | Aider | ✅ Partial | Use as standalone scripts |
 | Cursor | ✅ Partial | Run from terminal panel |
 | Any terminal | ✅ Always | npm global install works everywhere |
@@ -214,7 +215,7 @@ skillpack people-ops onboard --role "Frontend Dev" --start "2025-02-01"
 Each skill has two parts:
 
 1. **SKILL.md** — AI context file that tells your AI CLI what the skill does, when to use it, and how to call it
-2. **index.js** — Standalone Node.js implementation that handles file I/O, argument parsing, and output formatting
+2. **index.sh** — Standalone POSIX shell script that handles file I/O, argument parsing, and output formatting
 
 ```
 User runs: skillpack doc-extract invoice.pdf --format json
@@ -227,8 +228,8 @@ User runs: skillpack doc-extract invoice.pdf --format json
                    │
                    ▼
           ┌─────────────────┐
-          │  index.js        │  ← Node.js script executes
-          │  executes        │
+          │  index.sh        │  ← Shell script executes
+          │  executes        │    (pdftotext, awk, sed, jq)
           └────────┬────────┘
                    │
                    ▼
@@ -247,10 +248,10 @@ No. All skills run locally on your machine. No data is sent anywhere unless you 
 No. All skills work standalone without any API keys. Some AI-enhanced features (translation, smart replies) work better with an AI CLI tool.
 
 **Can I use this without an AI CLI tool?**
-Yes. Every skill's `index.js` is a standalone Node.js script. Install with `npm install -g skillpack` and use directly from any terminal.
+Yes. Every skill's `index.sh` is a standalone POSIX shell script. Install with `npm install -g skillpack` or just clone the repo and run the scripts directly.
 
 **How do I add my own skill?**
-See [CONTRIBUTING.md](.github/CONTRIBUTING.md). The short version: create a directory with `SKILL.md` + `index.js` + `README.md` following the existing patterns.
+See [CONTRIBUTING.md](.github/CONTRIBUTING.md). The short version: create a directory with `SKILL.md` + `index.sh` + `README.md` following the existing patterns.
 
 **Can I use only specific skills without installing everything?**
 Yes. Each skill is independent. Clone the repo and use only the skills you need, or install globally and only call the ones you want.

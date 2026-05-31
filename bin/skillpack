@@ -1,0 +1,72 @@
+#!/bin/sh
+set -e
+
+SKILLPACK_DIR="$(cd "$(dirname "$0")/.." && pwd)"
+SKILLS_DIR="$SKILLPACK_DIR/skills"
+VERSION="1.0.0"
+
+print_help() {
+  cat <<'EOF'
+
+⚡ skillpack — AI-powered terminal skills
+
+USAGE
+  skillpack <skill> [options] [input]
+
+SKILLS
+  Documents
+    doc-extract      PDF/DOCX/image → markdown, CSV, JSON, plain text
+
+  Data
+    data-wrangle     Clean, convert, merge, validate CSV/JSON/XLSX; SQL from English
+
+  Development
+    code-scaffold    Tests, README, .env.example, API docs, changelog, TS types
+
+  Infrastructure
+    infra-gen        k8s manifests, CI/CD YAML, nginx config, Terraform from plain English
+
+  Content & Writing
+    content-craft    Proofread, translate, summarize, blog→social, notes→brief
+
+  Files & Assets
+    file-ops         Batch rename, image resize/convert, favicon sets, design tokens→CSS
+
+  Finance
+    finance-extract  Bank statements, invoices, expense reports → structured data
+
+  People & HR
+    people-ops       Resume→JSON, job descriptions, onboarding checklists
+
+FLAGS
+  --help, -h       Show help for a skill
+  --version, -v    Print version
+  --dry-run        Preview output without writing files
+  --out <dir>      Output directory (default: current dir)
+  --format <fmt>   Output format: markdown | csv | json | txt (skill-dependent)
+
+EOF
+}
+
+case "${1:-}" in
+  --help|-h|"")
+    print_help
+    exit 0
+    ;;
+  --version|-v)
+    echo "skillpack v$VERSION"
+    exit 0
+    ;;
+esac
+
+SKILL_NAME="$1"
+SKILL_SCRIPT="$SKILLS_DIR/$SKILL_NAME/index.sh"
+
+if [ ! -f "$SKILL_SCRIPT" ]; then
+  echo "Error: Unknown skill \"$SKILL_NAME\"" >&2
+  echo "Run skillpack --help to see available skills." >&2
+  exit 1
+fi
+
+shift
+exec "$SKILL_SCRIPT" "$@"

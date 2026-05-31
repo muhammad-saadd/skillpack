@@ -4,7 +4,7 @@ version: 1.0.0
 description: Batch rename files, resize/convert images, generate favicon sets, convert design tokens to CSS
 inputs: [jpg, png, webp, avif, svg, json]
 outputs: [jpg, png, webp, avif, svg, css]
-tools: [bash, read_file, write_file]
+tools: [bash, read_file, write_file, pdftotext, jq, awk, sed]
 ---
 
 ## What this skill does
