@@ -61,7 +61,7 @@ generate_sql() {
     for(i=1;i<=NF;i++) $i=tolower($i)
     
     if ($0 ~ /total|sum/) {
-      printf "SELECT SUM(*)\n"
+      printf "SELECT SUM(column_name)\n"
     } else if ($0 ~ /count|how many/) {
       printf "SELECT COUNT(*)\n"
     } else if ($0 ~ /average|avg/) {
@@ -99,7 +99,7 @@ validate_csv() {
   
   echo "Empty values per column:"
   echo "$header" | tr ',' '\n' | while read -r col; do
-    empty=$(tail -n +2 "$file" | awk -F',' -v col="$col" '{for(i=1;i<=NF;i++){if($i=="")count++}} END{print count+0}')
+    empty=$(awk -F',' -v col="$col" 'NR==1{for(i=1;i<=NF;i++)if($i==col)k=i;next}k && $k==""{count++}END{print count+0}' "$file")
     if [ "$empty" -gt 0 ]; then
       echo "  $col: $empty empty values"
     fi
@@ -155,8 +155,9 @@ for file in $FILES; do
   ext="${file##*.}"
   
   if [ "$VALIDATE" = "1" ]; then
-    validate_csv "$file"
-    [ -n "$REPORT" ] && validate_csv "$file" > "$REPORT" && echo "Report written to $REPORT" >&2
+    report=$(validate_csv "$file")
+    echo "$report"
+    [ -n "$REPORT" ] && echo "$report" > "$REPORT" && echo "Report written to $REPORT" >&2
     exit 0
   fi
   

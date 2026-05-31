@@ -1,5 +1,5 @@
 {
-  "name": "skillpack",
+  "name": "@muhammad-saadd/skillpack",
   "version": "1.0.0",
   "description": "AI-powered terminal skills that eliminate multi-click professional workflows",
   "bin": {
@@ -12,18 +12,31 @@
     "README.md"
   ],
   "scripts": {
-    "test": "echo \"No tests yet\" && exit 0"
+    "test": "for f in skills/*/index.sh bin/skillpack install.sh; do bash -n \"$f\" || exit 1; done"
   },
   "keywords": [
-    "claude-code", "opencode", "codex-cli", "ai-skills", "cli-automation",
-    "mcp", "developer-tools", "productivity", "terminal", "skillpack",
-    "pdf-to-markdown", "data-wrangling", "code-scaffolding", "infra-generator",
-    "content-automation", "batch-rename", "finance-parser", "ai-workflow",
-    "posix-shell", "terminal-tools", "shell-scripts"
+    "claude-code",
+    "opencode",
+    "codex-cli",
+    "ai-skills",
+    "cli-automation",
+    "mcp",
+    "developer-tools",
+    "productivity",
+    "terminal",
+    "skillpack",
+    "pdf-to-markdown",
+    "data-wrangling",
+    "code-scaffolding",
+    "infra-generator",
+    "content-automation",
+    "batch-rename",
+    "finance-parser",
+    "ai-workflow",
+    "posix-shell",
+    "terminal-tools",
+    "shell-scripts"
   ],
-  "engines": {
-    "node": ">=12"
-  },
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -32,6 +45,5 @@
   "homepage": "https://github.com/muhammad-saadd/skillpack#readme",
   "bugs": {
     "url": "https://github.com/muhammad-saadd/skillpack/issues"
-  },
-  "dependencies": {}
+  }
 }

@@ -77,15 +77,17 @@ parse_statement() {
   
   pdftotext -layout "$file" - 2>/dev/null | awk '
     /[0-9]{1,2}\/[0-9]{1,2}/ {
-      match($0, /([0-9]{1,2}\/[0-9]{1,2}(\/[0-9]{2,4})?)/, date)
-      match($0, /\$?([0-9,]+\.?[0-9]*)/, amt)
-      if (date[1] && amt[1]) {
+      match($0, /(0?[1-9]|1[0-2])\/(0?[1-9]|[12][0-9]|3[01])(\/([0-9]{2}|[0-9]{4}))?/, date)
+      if (!match($0, /\$[0-9,]+\.?[0-9]*/, amt)) {
+        match($0, /[0-9]+\.?[0-9]+/, amt)
+      }
+      if (date[1] && amt[0]) {
         desc = $0
         gsub(date[1], "", desc)
-        gsub(amt[1], "", desc)
+        gsub(amt[0], "", desc)
         gsub(/^[[:space:]]+|[[:space:]]+$/, "", desc)
-        gsub(/,/, "", amt[1])
-        printf "{\"date\":\"%s\",\"description\":\"%s\",\"amount\":%s}", date[1], desc, amt[1]
+        gsub(/,/, "", amt[0])
+        printf "{\"date\":\"%s\",\"description\":\"%s\",\"amount\":%s}", date[1], desc, amt[0]
         print ""
       }
     }
@@ -124,11 +126,16 @@ case "$SUBCOMMAND" in
       transactions=$(parse_statement "$file")
       
       if [ "$CATEGORIZE" = "1" ]; then
-        transactions=$(echo "$transactions" | while read -r line; do
+        categorized=""
+        while read -r line; do
+          [ -z "$line" ] && continue
           desc=$(echo "$line" | grep -oE '"description":"[^"]*"' | sed 's/"description":"//;s/"//')
           cat=$(categorize "$desc")
-          echo "$line" | sed "s/}$/,\"category\":\"$cat\"}/"
-        done)
+          categorized="${categorized}${line%?},\"category\":\"$cat\"}"$'\n'
+        done <<TXNS
+$transactions
+TXNS
+        transactions="$categorized"
       fi
       
       all_transactions="$all_transactions
@@ -171,20 +178,22 @@ $transactions"
   report)
     dir=$(echo "$FILES" | awk '{print $1}')
     [ -z "$dir" ] && dir="."
-    
-    echo "{"
-    echo "  \"transactions\": ["
-    first=1
+
+    all_txns=""
     for f in "$dir"/*; do
       [ -f "$f" ] || continue
       case "$f" in *.pdf|*.csv) ;; *) continue ;; esac
-      transactions=$(parse_statement "$f" 2>/dev/null)
-      [ -z "$transactions" ] && continue
-      [ "$first" = "0" ] && echo ","
-      echo "$transactions" | grep -oE '\{[^}]+\}' | tr -d '\n'
-      first=0
+      txns=$(parse_statement "$f" 2>/dev/null)
+      [ -z "$txns" ] && continue
+      all_txns="$all_txns
+$txns"
     done
-    echo "]"
+
+    echo "{"
+    echo '  "transactions": ['
+    echo "$all_txns" | grep -oE '\{[^}]+\}' | awk 'NR>1{printf ",\n"} {printf "    %s", $0}'
+    echo ""
+    echo "  ]"
     echo "}"
     ;;
   *)

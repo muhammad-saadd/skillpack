@@ -85,16 +85,21 @@ install_if_missing convert \
 
 if ! command -v docx2txt >/dev/null 2>&1 && ! command -v pandoc >/dev/null 2>&1; then
   echo "  → Installing docx2txt..."
+  _installed=false
   case "$PKG_MANAGER" in
-    apt)    sudo apt-get install -y -qq docx2txt >/dev/null 2>&1 ;;
-    dnf)    sudo dnf install -y -q docx2txt >/dev/null 2>&1 ;;
-    yum)    sudo yum install -y -q docx2txt >/dev/null 2>&1 ;;
-    brew)   brew install pandoc >/dev/null 2>&1 ;;
-    pacman) sudo pacman -S --noconfirm pandoc >/dev/null 2>&1 ;;
-    apk)    sudo apk add --no-cache pandoc >/dev/null 2>&1 ;;
+    apt)    sudo apt-get install -y -qq docx2txt >/dev/null 2>&1 && _installed=true ;;
+    dnf)    sudo dnf install -y -q docx2txt >/dev/null 2>&1 && _installed=true ;;
+    yum)    sudo yum install -y -q docx2txt >/dev/null 2>&1 && _installed=true ;;
+    brew)   brew install pandoc >/dev/null 2>&1 && _installed=true ;;
+    pacman) sudo pacman -S --noconfirm pandoc >/dev/null 2>&1 && _installed=true ;;
+    apk)    sudo apk add --no-cache pandoc >/dev/null 2>&1 && _installed=true ;;
     *)      echo "  ⚠ Could not auto-install docx2txt. Install manually." ;;
   esac
-  echo "  ✓ docx2txt installed"
+  if [ "$_installed" = "true" ]; then
+    echo "  ✓ docx2txt/pandoc installed"
+  else
+    echo "  ⚠ Failed to install. Install manually." >&2
+  fi
 else
   echo "  ✓ docx2txt/pandoc already installed"
 fi
@@ -104,7 +109,7 @@ echo ""
 # Try npm install first
 if command -v npm >/dev/null 2>&1; then
   echo "Installing skillpack via npm..."
-  npm install -g skillpack
+  npm install -g .
   echo ""
   echo "✅ skillpack installed successfully!"
   echo ""

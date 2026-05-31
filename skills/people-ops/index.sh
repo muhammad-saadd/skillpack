@@ -89,7 +89,7 @@ parse_resume() {
   local name=$(echo "$text" | head -1 | sed 's/^[[:space:]]*//')
   local email=$(echo "$text" | grep -oE '[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}' | head -1)
   local phone=$(echo "$text" | grep -oE '(\+?1[-.\s]?)?\(?[0-9]{3}\)?[-.\s]?[0-9]{3}[-.\s]?[0-9]{4}' | head -1)
-  local skills=$(echo "$text" | grep -iA5 'skills\|technologies' | grep -oE '[A-Z][a-z]+ [A-Z][a-z]+' | head -5 | tr '\n' ',' | sed 's/,$//')
+  local skills=$(echo "$text" | sed -n '/[Ss]kills\|[Tt]echnologies/,/^$/p' | grep -oE '[A-Z][a-zA-Z0-9+#.]+' | head -10 | tr '\n' ',' | sed 's/,$//')
   
   cat <<JSON
 {
@@ -112,7 +112,7 @@ generate_jd() {
 # ${role}
 
 **Team:** ${team}
-**Level:** $(echo "$level" | sed 's/./\U&/')
+**Level:** $(echo "$level" | awk '{print toupper(substr($0,1,1)) substr($0,2)}')
 **Location:** $([ "$REMOTE" = "1" ] && echo "Remote" || echo "On-site")
 
 ## About the Role
@@ -154,7 +154,7 @@ JD
 }
 
 generate_onboarding() {
-  local role="${role:-Engineer}"
+  local role="${ROLE:-Engineer}"
   local start_date="${start:-$(date -d '+7 days' '+%Y-%m-%d' 2>/dev/null || date -v+7d '+%Y-%m-%d' 2>/dev/null || echo 'TBD')}"
   
   cat <<ONBOARD

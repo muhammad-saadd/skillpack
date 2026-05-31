@@ -152,8 +152,9 @@ for file in $FILES; do
 
   base=$(basename "$file" ".$ext")
   case "$FORMAT" in
-    json)  output=$(printf '{"file":"%s","content":"%s"}' "$file" "$(echo "$text" | sed 's/"/\\"/g' | tr '\n' ' ')") ;;
-    csv)   output=$(echo "$text" | awk -F'\t+' '{ for(i=1;i<=NF;i++) gsub(/^ +| +$/,"",$i); printf "\"%s\"\n", $i }' OFS=',') ;;
+    json)  escaped=$(echo "$text" | sed 's/\\/\\\\/g; s/"/\\"/g; s/\t/\\t/g' | tr '\n' ' ')
+           output=$(printf '{"file":"%s","content":"%s"}' "$file" "$escaped") ;;
+    csv)   output=$(echo "$text" | awk -F'\t+' '{ row=""; for(i=1;i<=NF;i++) { gsub(/^ +| +$/,"",$i); row=row sep "\"" $i "\""; sep="," } print row }') ;;
     txt)   output="$text" ;;
     *)     output="$text" ;;
   esac

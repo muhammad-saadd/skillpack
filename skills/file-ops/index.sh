@@ -58,9 +58,9 @@ done
 
 rename_files() {
   local seq=1
-  local files=$(ls $FILES 2>/dev/null)
   
-  for file in $files; do
+  for file in $FILES; do
+    [ -z "$file" ] && continue
     [ ! -e "$file" ] && continue
     
     ext="${file##*.}"
@@ -71,7 +71,9 @@ rename_files() {
     [ -n "$FIND" ] && [ -n "$REPLACE" ] && newname=$(echo "$name" | sed "s/$FIND/$REPLACE/g")
     
     if [ -n "$PATTERN" ]; then
-      newname=$(echo "$PATTERN" | sed "s/{name}/$newname/g; s/{date}/$date/g; s/{seq}/$(printf '%03d' $seq)/g; s/{ext}/$ext/g")
+      newname=$(echo "$PATTERN" | awk -v name="$newname" -v dt="$date" -v seq="$(printf '%03d' $seq)" -v ext="$ext" '{
+        gsub(/{name}/, name); gsub(/{date}/, dt); gsub(/{seq}/, seq); gsub(/{ext}/, ext); print
+      }')
     fi
     
     dir=$(dirname "$file")

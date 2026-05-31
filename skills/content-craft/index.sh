@@ -66,11 +66,11 @@ proofread() {
   for pair in "teh:the" "recieve:receive" "occured:occurred" "seperate:separate" "definately:definitely"; do
     wrong=$(echo "$pair" | cut -d: -f1)
     right=$(echo "$pair" | cut -d: -f2)
-    count=$(echo "$text" | grep -oi "$wrong" | wc -l)
+    count=$(echo "$text" | grep -oiF "$wrong" | wc -l)
     if [ "$count" -gt 0 ]; then
       echo "  Found $count occurrences of \"$wrong\" → \"$right\"" >&2
       issues=$((issues + count))
-      [ "$FIX" = "1" ] && text=$(echo "$text" | sed "s/$wrong/$right/gi")
+      [ "$FIX" = "1" ] && text=$(echo "$text" | awk -v old="$wrong" -v new="$right" '{gsub(old, new); print}')
     fi
   done
   
@@ -78,7 +78,7 @@ proofread() {
   ws_count=$(echo "$text" | grep -c '  ')
   if [ "$ws_count" -gt 0 ]; then
     echo "  Found $ws_count lines with extra whitespace" >&2
-    issues=$((issues + issues + ws_count))
+    issues=$((issues + ws_count))
     [ "$FIX" = "1" ] && text=$(echo "$text" | sed 's/  */ /g')
   fi
   
