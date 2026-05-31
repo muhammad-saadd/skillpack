@@ -5,9 +5,11 @@
 [![npm version](https://img.shields.io/npm/v/skillpack.svg)](https://www.npmjs.com/package/skillpack)
 [![license](https://img.shields.io/npm/l/skillpack.svg)](https://github.com/muhammad-saadd/skillpack/blob/main/LICENSE)
 [![CI](https://github.com/muhammad-saadd/skillpack/actions/workflows/ci.yml/badge.svg)](https://github.com/muhammad-saadd/skillpack/actions/workflows/ci.yml)
+[![shell](https://img.shields.io/badge/shell-POSIX-green.svg)](https://pubs.opengroup.org/onlinepubs/9699919799/)
+
 AI-powered terminal skills that eliminate multi-click professional workflows. Extract data from PDFs, wrangle CSVs, scaffold code, generate infrastructure configs, process content, batch rename files, parse invoices, and manage resumes — all from a single command. Works with Claude Code, OpenCode, Codex CLI, and any MCP-compatible AI tool.
 
-**Zero dependencies.** Pure POSIX shell scripts — works on any Linux/macOS system.
+**Zero Node.js dependencies.** Pure POSIX shell scripts — works on any Linux/macOS system.
 
 ## The problem with professional workflows
 

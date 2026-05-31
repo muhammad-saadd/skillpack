@@ -5,6 +5,12 @@
   "bin": {
     "skillpack": "./bin/skillpack"
   },
+  "files": [
+    "bin/",
+    "skills/",
+    "LICENSE",
+    "README.md"
+  ],
   "scripts": {
     "test": "echo \"No tests yet\" && exit 0"
   },
@@ -12,13 +18,20 @@
     "claude-code", "opencode", "codex-cli", "ai-skills", "cli-automation",
     "mcp", "developer-tools", "productivity", "terminal", "skillpack",
     "pdf-to-markdown", "data-wrangling", "code-scaffolding", "infra-generator",
-    "content-automation", "batch-rename", "finance-parser", "ai-workflow"
+    "content-automation", "batch-rename", "finance-parser", "ai-workflow",
+    "posix-shell", "terminal-tools", "shell-scripts"
   ],
+  "engines": {
+    "node": ">=12"
+  },
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/muhammad-saadd/skillpack.git"
   },
   "homepage": "https://github.com/muhammad-saadd/skillpack#readme",
+  "bugs": {
+    "url": "https://github.com/muhammad-saadd/skillpack/issues"
+  },
   "dependencies": {}
 }
