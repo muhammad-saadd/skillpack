@@ -1,7 +1,6 @@
 .github/
 .git/
 .gitignore
-install.sh
 node_modules/
 *.log
 .DS_Store

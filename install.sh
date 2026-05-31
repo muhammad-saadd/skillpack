@@ -106,22 +106,7 @@ fi
 
 echo ""
 
-# Try npm install first
-if command -v npm >/dev/null 2>&1; then
-  echo "Installing skillpack via npm..."
-  npm install -g .
-  echo ""
-  echo "✅ skillpack installed successfully!"
-  echo ""
-  echo "Quickstart:"
-  echo "  skillpack --help"
-  echo "  skillpack doc-extract --help"
-  echo "  skillpack data-wrangle --help"
-  exit 0
-fi
-
-# Fallback: clone and symlink
-echo "npm not found, installing from source..."
+# Clone repo and symlink
 REPO_URL="https://github.com/muhammad-saadd/skillpack.git"
 INSTALL_DIR="$HOME/.local/share/skillpack"
 

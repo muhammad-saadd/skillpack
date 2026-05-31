@@ -11,7 +11,12 @@ The old way: Google "docker-compose to kubernetes" → read 47 Stack Overflow an
 ## Installation
 
 ```bash
-npm install -g skillpack
+# via curl (auto-installs dependencies)
+curl -fsSL https://raw.githubusercontent.com/muhammad-saadd/skillpack/main/install.sh | bash
+
+# or clone directly
+git clone https://github.com/muhammad-saadd/skillpack ~/.local/share/skillpack
+ln -s ~/.local/share/skillpack/bin/skillpack ~/.local/bin/skillpack
 ```
 
 ## Usage Examples

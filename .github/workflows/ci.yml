@@ -7,22 +7,17 @@ on:
     branches: [main]
 
 jobs:
-  test:
+  shellcheck:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [18, 20, 22]
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node-version }}
+      - name: Install shellcheck
+        run: sudo apt-get update && sudo apt-get install -y shellcheck
 
-      - name: Install dependencies
-        run: npm ci
+      - name: Check shell scripts with bash -n
+        run: for f in bin/skillpack install.sh skills/*/index.sh; do bash -n "$f"; done
 
-      - name: Test
-        run: npm test
+      - name: Check shell scripts with shellcheck
+        run: for f in bin/skillpack install.sh skills/*/index.sh; do shellcheck "$f"; done
