@@ -2,8 +2,8 @@
 
 **⚡ One command replaces an afternoon of clicking**
 
-[![npm version](https://img.shields.io/npm/v/skillpack.svg)](https://www.npmjs.com/package/skillpack)
-[![license](https://img.shields.io/npm/l/skillpack.svg)](https://github.com/muhammad-saadd/skillpack/blob/main/LICENSE)
+[![npm version](https://img.shields.io/npm/v/@muhammad-saadd/skillpack.svg)](https://www.npmjs.com/package/@muhammad-saadd/skillpack)
+[![license](https://img.shields.io/npm/l/@muhammad-saadd/skillpack.svg)](https://github.com/muhammad-saadd/skillpack/blob/main/LICENSE)
 [![CI](https://github.com/muhammad-saadd/skillpack/actions/workflows/ci.yml/badge.svg)](https://github.com/muhammad-saadd/skillpack/actions/workflows/ci.yml)
 [![shell](https://img.shields.io/badge/shell-POSIX-green.svg)](https://pubs.opengroup.org/onlinepubs/9699919799/)
 
@@ -30,7 +30,7 @@ Every professional task requires context switching between 5+ apps. A single inv
 curl -fsSL https://raw.githubusercontent.com/muhammad-saadd/skillpack/main/install.sh | bash
 
 # or via npm (you'll need pdftotext, jq, imagemagick separately)
-npm install -g skillpack
+npm install -g @muhammad-saadd/skillpack
 
 # or clone and symlink
 git clone https://github.com/muhammad-saadd/skillpack ~/.local/share/skillpack
@@ -252,7 +252,7 @@ No. All skills run locally on your machine. No data is sent anywhere unless you 
 No. All skills work standalone without any API keys. Some AI-enhanced features (translation, smart replies) work better with an AI CLI tool.
 
 **Can I use this without an AI CLI tool?**
-Yes. Every skill's `index.sh` is a standalone POSIX shell script. Install with `npm install -g skillpack` or just clone the repo and run the scripts directly.
+Yes. Every skill's `index.sh` is a standalone POSIX shell script. Install with `npm install -g @muhammad-saadd/skillpack` or just clone the repo and run the scripts directly.
 
 **How do I add my own skill?**
 See [CONTRIBUTING.md](.github/CONTRIBUTING.md). The short version: create a directory with `SKILL.md` + `index.sh` + `README.md` following the existing patterns.
