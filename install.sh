@@ -3,21 +3,107 @@ set -e
 
 echo "⚡ Installing skillpack..."
 
-# Check for required tools
-check_tool() {
-  if ! command -v "$1" >/dev/null 2>&1; then
-    echo "⚠️  $1 not found. Some skills may need it."
-    echo "   $2"
+# Detect package manager
+detect_pkg_manager() {
+  if command -v apt-get >/dev/null 2>&1; then
+    echo "apt"
+  elif command -v dnf >/dev/null 2>&1; then
+    echo "dnf"
+  elif command -v yum >/dev/null 2>&1; then
+    echo "yum"
+  elif command -v pacman >/dev/null 2>&1; then
+    echo "pacman"
+  elif command -v brew >/dev/null 2>&1; then
+    echo "brew"
+  elif command -v apk >/dev/null 2>&1; then
+    echo "apk"
+  else
+    echo "unknown"
   fi
 }
 
-check_tool pdftotext "Install: sudo apt install poppler-utils"
-check_tool jq "Install: sudo apt install jq"
-check_tool convert "Install: sudo apt install imagemagick"
+# Install a package if not present
+install_if_missing() {
+  local cmd="$1"
+  local pkg_deb="$2"
+  local pkg_rpm="$3"
+  local pkg_pacman="$4"
+  local pkg_brew="$5"
+  local pkg_apk="$6"
+
+  if command -v "$cmd" >/dev/null 2>&1; then
+    echo "  ✓ $cmd already installed"
+    return
+  fi
+
+  echo "  → Installing $cmd..."
+  case "$PKG_MANAGER" in
+    apt)
+      sudo apt-get update -qq && sudo apt-get install -y -qq "$pkg_deb" >/dev/null 2>&1
+      ;;
+    dnf)
+      sudo dnf install -y -q "$pkg_rpm" >/dev/null 2>&1
+      ;;
+    yum)
+      sudo yum install -y -q "$pkg_rpm" >/dev/null 2>&1
+      ;;
+    pacman)
+      sudo pacman -S --noconfirm "$pkg_pacman" >/dev/null 2>&1
+      ;;
+    brew)
+      brew install "$pkg_brew" >/dev/null 2>&1
+      ;;
+    apk)
+      sudo apk add --no-cache "$pkg_apk" >/dev/null 2>&1
+      ;;
+    *)
+      echo "  ⚠ Could not auto-install $cmd. Install manually." >&2
+      return 1
+      ;;
+  esac
+  echo "  ✓ $cmd installed"
+}
+
+# Detect OS and package manager
+OS="$(uname -s)"
+PKG_MANAGER=$(detect_pkg_manager)
+
+echo ""
+echo "Detected: $OS with $PKG_MANAGER"
+echo ""
+
+# Install dependencies
+echo "Installing required tools:"
+install_if_missing pdftotext \
+  "poppler-utils" "poppler-utils" "poppler" "poppler" "poppler-utils"
+
+install_if_missing jq \
+  "jq" "jq" "jq" "jq" "jq"
+
+install_if_missing convert \
+  "imagemagick" "ImageMagick" "imagemagick" "imagemagick" "imagemagick"
+
+if ! command -v docx2txt >/dev/null 2>&1 && ! command -v pandoc >/dev/null 2>&1; then
+  echo "  → Installing docx2txt..."
+  case "$PKG_MANAGER" in
+    apt)    sudo apt-get install -y -qq docx2txt >/dev/null 2>&1 ;;
+    dnf)    sudo dnf install -y -q docx2txt >/dev/null 2>&1 ;;
+    yum)    sudo yum install -y -q docx2txt >/dev/null 2>&1 ;;
+    brew)   brew install pandoc >/dev/null 2>&1 ;;
+    pacman) sudo pacman -S --noconfirm pandoc >/dev/null 2>&1 ;;
+    apk)    sudo apk add --no-cache pandoc >/dev/null 2>&1 ;;
+    *)      echo "  ⚠ Could not auto-install docx2txt. Install manually." ;;
+  esac
+  echo "  ✓ docx2txt installed"
+else
+  echo "  ✓ docx2txt/pandoc already installed"
+fi
+
+echo ""
 
 # Try npm install first
 if command -v npm >/dev/null 2>&1; then
-  echo "Installing via npm..."
+  echo "Installing skillpack via npm..."
   npm install -g skillpack
   echo ""
   echo "✅ skillpack installed successfully!"

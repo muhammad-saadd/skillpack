@@ -24,16 +24,18 @@ Every professional task requires context switching between 5+ apps. A single inv
 ## Install in 30 seconds
 
 ```bash
-# via npm
-npm install -g skillpack
-
-# or via curl
+# via curl (installs everything — skillpack + dependencies)
 curl -fsSL https://raw.githubusercontent.com/muhammad-saadd/skillpack/main/install.sh | bash
+
+# or via npm (you'll need pdftotext, jq, imagemagick separately)
+npm install -g skillpack
 
 # or clone and symlink
 git clone https://github.com/muhammad-saadd/skillpack ~/.local/share/skillpack
 ln -s ~/.local/share/skillpack/bin/skillpack ~/.local/bin/skillpack
 ```
+
+The curl installer auto-detects your package manager (apt/dnf/yum/pacman/brew/apk) and installs: `pdftotext`, `jq`, `imagemagick`, `docx2txt`.
 
 ## 60-second quickstart
 
