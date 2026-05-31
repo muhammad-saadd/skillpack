@@ -99,7 +99,7 @@ validate_csv() {
   
   echo "Empty values per column:"
   echo "$header" | tr ',' '\n' | while read -r col; do
-    empty=$(awk -F',' -v col="$col" 'NR==1{for(i=1;i<=NF;i++)if($i==col)k=i;next}k && $k==""{count++}END{print count+0}' "$file")
+    empty=$(awk -F',' -v col="$col" 'NR==1{for(i=1;i<=NF;i++)if($i==col)k=i;next}k && $k == ""{count++}END{print count+0}' "$file")
     if [ "$empty" -gt 0 ]; then
       echo "  $col: $empty empty values"
     fi

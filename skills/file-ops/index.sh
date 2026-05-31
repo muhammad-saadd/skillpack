@@ -68,7 +68,7 @@ rename_files() {
     date=$(stat -c '%y' "$file" 2>/dev/null | cut -d' ' -f1 || date -r "$file" '+%Y-%m-%d' 2>/dev/null || echo "2024-01-01")
     
     newname="$name"
-    [ -n "$FIND" ] && [ -n "$REPLACE" ] && newname=$(echo "$name" | sed "s/$FIND/$REPLACE/g")
+    [ -n "$FIND" ] && [ -n "$REPLACE" ] && newname=$(echo "$name" | awk -v f="$FIND" -v r="$REPLACE" '{gsub(f, r); print}')
     
     if [ -n "$PATTERN" ]; then
       newname=$(echo "$PATTERN" | awk -v name="$newname" -v dt="$date" -v seq="$(printf '%03d' $seq)" -v ext="$ext" '{
