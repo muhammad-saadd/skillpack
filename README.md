@@ -478,7 +478,7 @@ See existing skills (e.g. [`skills/doc-extract/`](skills/doc-extract/)) for the 
 
 ## 📝 License
 
-[MIT](./LICENSE) © 2024 [Muhammad Saad](https://github.com/muhammad-saadd)
+[MIT](./LICENSE) © 2026 [Muhammad Saad](https://github.com/muhammad-saadd)
 
 ---
 
