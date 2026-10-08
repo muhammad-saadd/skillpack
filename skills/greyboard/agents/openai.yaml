@@ -1,0 +1,4 @@
+interface:
+  display_name: Greyboard
+  short_description: Challenge assumptions and agree on a design
+  default_prompt: Use $greyboard to think through this engineering task before implementation.

@@ -130,12 +130,30 @@ npm install -g @muhammad-saadd/skillpack
 
 ```bash
 skillpack --version          # → skillpack v1.0.3
-skillpack --help             # → lists all 8 skills
+skillpack --help             # → lists all 8 terminal skills
 ```
 
 ---
 
-## 🔌 Claude Code plugins: greyboard & orangebox
+## 🧩 Install Greyboard and Orangebox
+
+The same two workflow skills have portable versions for Codex and OpenCode.
+Install both globally with one command:
+
+```bash
+npx skills add muhammad-saadd/skillpack --skill orangebox greyboard --global --agent codex opencode --yes
+```
+
+This installs only these workflows, not the eight terminal skills. Codex can
+invoke them as `$orangebox` and `$greyboard`; OpenCode can invoke them as
+`/orangebox` and `/greyboard` or let the agent select them automatically.
+Orangebox uses each host's own subagent tool for implementation and independent
+reviews. If separate agent contexts are unavailable, it marks those review
+gates blocked instead of claiming they passed. Codex and OpenCode do not run
+Claude's plugin hooks, so the portable instructions keep file ownership
+explicit and require the coordinator to inspect changes before integration.
+
+### Claude Code plugin marketplace
 
 This repo is also a Claude Code plugin marketplace with two workflow plugins:
 
@@ -150,7 +168,10 @@ This repo is also a Claude Code plugin marketplace with two workflow plugins:
 /plugin install orangebox@skillpack
 ```
 
-greyboard works best with `superpowers` and `ponytail` installed and offers to install them on first run. orangebox needs `git` and `node` on PATH. Its diagrams publish only where Claude Artifacts are available.
+The Claude plugins retain their native agents, hooks, and Artifact integration.
+They need `git` and `node` on `PATH`; Orangebox diagrams publish only where
+Claude Artifacts are available. Greyboard uses other installed skills when
+available and falls back to its built-in lightweight process.
 
 ---
 
@@ -451,7 +472,7 @@ Each skill has two parts: a **machine-readable context file** (`SKILL.md`) and a
 No. Every skill runs 100% locally. No data leaves your machine unless you wire up an external API yourself.
 
 **Does it require an API key?**
-No. All 8 skills work standalone. The skills become *smarter* when an AI CLI is connected (e.g. Claude Code reads `SKILL.md` for context), but none of them require it.
+No. All eight terminal skills work standalone. They become *smarter* when an AI CLI is connected (e.g. Claude Code reads `SKILL.md` for context), but none of them require it.
 
 **Can I use it without an AI CLI tool?**
 Yes. Every `index.sh` is a standalone POSIX shell script. You can install via `curl` and use only the CLI, or clone the repo and run any skill directly.
