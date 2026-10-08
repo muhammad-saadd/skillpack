@@ -1,0 +1,9 @@
+{
+  "name": "orangebox",
+  "version": "1.0.0",
+  "description": "Multi-agent engineering workflow: grill the problem, diagram it, PRD + task plan, build on a branch, then independent QA and requirements-fidelity review.",
+  "author": { "name": "Muhammad Saad" },
+  "repository": "https://github.com/muhammad-saadd/skillpack",
+  "license": "MIT",
+  "keywords": ["workflow", "prd", "qa", "code-review", "subagents"]
+}

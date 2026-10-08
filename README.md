@@ -135,6 +135,25 @@ skillpack --help             # → lists all 8 skills
 
 ---
 
+## 🔌 Claude Code plugins: greyboard & orangebox
+
+This repo is also a Claude Code plugin marketplace with two workflow plugins:
+
+| Plugin | What it does |
+|---|---|
+| **greyboard** | A senior staff engineer that interrogates the problem, challenges assumptions and shows the design as an HTML view before any code is written. Trigger: `/greyboard` |
+| **orangebox** | A multi-agent workflow: grill the problem → diagram → PRD + task plan → build on a local branch → independent QA + requirements-fidelity review. Includes `grill`, `architect`, `lead`, `engineer`, `qa`, `final-review` and five `eng-*` subagents. Trigger: `/orangebox <task>` |
+
+```text
+/plugin marketplace add muhammad-saadd/skillpack
+/plugin install greyboard@skillpack
+/plugin install orangebox@skillpack
+```
+
+greyboard works best with `superpowers` and `ponytail` installed and offers to install them on first run. orangebox needs `git` and `node` on PATH. Its diagrams publish only where Claude Artifacts are available.
+
+---
+
 ## ⚡ 60-second quickstart
 
 ```bash

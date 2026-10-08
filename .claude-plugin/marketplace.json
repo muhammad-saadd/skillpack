@@ -1,0 +1,21 @@
+{
+  "name": "skillpack",
+  "owner": { "name": "Muhammad Saad" },
+  "metadata": { "description": "Claude Code plugins by Muhammad Saad" },
+  "plugins": [
+    {
+      "name": "greyboard",
+      "source": "./plugins/greyboard",
+      "description": "Staff-engineer interrogation and a visual design view before any code.",
+      "version": "1.0.0",
+      "category": "development"
+    },
+    {
+      "name": "orangebox",
+      "source": "./plugins/orangebox",
+      "description": "Grill → diagram → PRD → build on a branch → independent QA + final review.",
+      "version": "1.0.0",
+      "category": "development"
+    }
+  ]
+}

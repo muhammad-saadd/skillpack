@@ -1,0 +1,9 @@
+{
+  "name": "greyboard",
+  "version": "1.0.0",
+  "description": "A senior staff engineer that interrogates the problem, challenges assumptions and shows the design visually before any code is written.",
+  "author": { "name": "Muhammad Saad" },
+  "repository": "https://github.com/muhammad-saadd/skillpack",
+  "license": "MIT",
+  "keywords": ["design", "staff-engineer", "planning", "review"]
+}

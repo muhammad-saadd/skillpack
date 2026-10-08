@@ -1,0 +1,81 @@
+<title>%% TITLE</title><style id="dg-css">:root{--bg:#f7f8f6;--fg:#1d2321;--muted:#5d6a65;--line:#d5dcd8;--panel:#ffffff;--accent:#2f6b57;--accent-fg:#ffffff;--ex:#e8edf7;--pr:#e3f3e6;--ch:#fbf1d9;--rm:#f8e1df}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#151a18;--fg:#e4ebe7;--muted:#9aa8a2;--line:#2f3a36;--panel:#1d2422;--accent:#7cc4a6;--accent-fg:#0f1513;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#151a18;--fg:#e4ebe7;--muted:#9aa8a2;--line:#2f3a36;--panel:#1d2422;--accent:#7cc4a6;--accent-fg:#0f1513;color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:1100px;margin:0 auto;padding:24px 16px 40px;display:grid;gap:14px}main>*{min-width:0}
+h1{font-size:1.35rem;margin:0;text-wrap:balance}h2{font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:10px 0 0}
+.meta{color:var(--muted);font-size:.85rem;display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center}
+.k{display:inline-flex;gap:6px;align-items:center}.k i{width:14px;height:10px;border-radius:2px;border:1px solid #0003;display:inline-block}
+.fig{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:16px;overflow-x:auto}.fig pre{margin:0}
+pre.na,pre.notes{margin:0;white-space:pre-wrap;color:var(--muted);font:13px/1.5 ui-monospace,Consolas,monospace}
+details{border:1px solid var(--line);border-radius:8px;background:var(--panel);padding:10px 14px}summary{cursor:pointer;font-weight:600}
+label{display:block;margin-top:12px;font-size:.85rem;color:var(--muted)}
+textarea{width:100%;box-sizing:border-box;min-height:12em;margin-top:4px;font:13px/1.45 ui-monospace,Consolas,monospace;background:var(--bg);color:var(--fg);border:1px solid var(--line);border-radius:6px;padding:10px}
+.row{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:10px}button{font:inherit;font-weight:600;background:var(--accent);color:var(--accent-fg);border:0;border-radius:6px;padding:7px 16px;cursor:pointer}button:disabled{opacity:.5;cursor:default}
+#msg{color:var(--muted);font-size:.85rem}</style>
+<main data-rev="1"><header><h1>%% TITLE</h1><div class="meta"><span>rev 1 · <span id="src">%% SOURCE</span></span><span class="k"><i style="background:var(--ex)"></i>existing</span><span class="k"><i style="background:var(--pr)"></i>proposed</span><span class="k"><i style="background:var(--ch)"></i>changed</span><span class="k"><i style="background:var(--rm)"></i>removed</span><span>dotted arrow = failure path</span></div></header>
+<h2>Flow</h2><div class="fig"><pre class="mermaid" id="d-flow">
+%% FLOW
+</pre></div>
+<h2>States</h2><div class="fig"><pre class="mermaid" id="d-state">
+%% STATE
+</pre></div>
+<h2>Classes</h2><div class="fig"><pre class="mermaid" id="d-class">
+%% CLASS
+</pre></div>
+<h2>Notes</h2><div class="fig"><pre class="notes" id="d-notes">
+%% NOTES
+</pre></div>
+<details><summary>Edit diagrams</summary><div id="ed"></div><div class="row"><button id="save" type="button" disabled>Save</button><span id="msg" role="status">Edit the text, then Save. The page reloads with your version.</span></div></details></main>
+<script id="dg-logic">const CSS=document.getElementById("dg-css").textContent;
+function build(s) {
+  const esc = v => String(v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  const chip = (c, t) => '<span class="k"><i style="background:var(--' + c + ')"></i>' + t + '</span>';
+  const fig = (k, h) => '<h2>' + h + '</h2><div class="fig"><pre class="mermaid" id="d-' + k + '">\n' + esc(s[k]) + '\n</pre></div>';
+  return '<title>' + esc(s.title) + '</title><style id="dg-css">' + CSS + '</style>\n' +
+    '<main data-rev="' + s.rev + '"><header><h1>' + esc(s.title) + '</h1><div class="meta"><span>rev ' + s.rev + ' · <span id="src">' + esc(s.source) + '</span></span>' +
+    chip('ex', 'existing') + chip('pr', 'proposed') + chip('ch', 'changed') + chip('rm', 'removed') + '<span>dotted arrow = failure path</span></div></header>\n' +
+    fig('flow', 'Flow') + '\n' + fig('state', 'States') + '\n' + fig('class', 'Classes') + '\n' +
+    '<h2>Notes</h2><div class="fig"><pre class="notes" id="d-notes">\n' + esc(s.notes) + '\n</pre></div>\n' +
+    '<details><summary>Edit diagrams</summary><div id="ed"></div><div class="row"><button id="save" type="button" disabled>Save</button><span id="msg" role="status">Edit the text, then Save. The page reloads with your version.</span></div></details></main>\n' +
+    '<script id="dg-logic">const CSS=document.getElementById("dg-css").textContent;\n' + build.toString() + '\n' + main.toString() + '\nmain();<\/script>';
+}
+function main() {
+  const $ = id => document.getElementById(id), KEYS = ['flow', 'state', 'class', 'notes'];
+  const text = k => $('d-' + k).textContent.replace(/\r/g, '').replace(/^\n|\n$/g, '');
+  const cur = { title: document.querySelector('main h1').textContent, rev: Number(document.querySelector('main').dataset.rev) || 1, source: $('src').textContent };
+  for (const k of KEYS) cur[k] = text(k);
+  for (const k of ['flow', 'state', 'class']) if (/^n\/a\b/i.test(cur[k].trim())) $('d-' + k).className = 'na';
+  if (typeof window === 'undefined') return cur;
+  // Mermaid shrinks wide diagrams to the panel width; show them at natural size and let the panel scroll.
+  const fit = () => { for (const s of document.querySelectorAll('.fig svg[viewBox]')) { const w = Math.ceil(s.viewBox.baseVal.width); if (w && s.style.width !== w + 'px') { s.style.maxWidth = 'none'; s.style.width = w + 'px'; s.style.height = 'auto'; } } };
+  if (typeof MutationObserver !== 'undefined') new MutationObserver(fit).observe(document.querySelector('main'), { childList: true, subtree: true });
+  const btn = $('save'), msg = $('msg'), say = t => { msg.textContent = t; }, boxes = {};
+  for (const k of KEYS) {
+    const l = document.createElement('label'); l.textContent = k === 'notes' ? 'Notes (assume: / Q-n:)' : k + ' diagram';
+    const t = document.createElement('textarea'); t.spellcheck = false; t.value = cur[k]; boxes[k] = t;
+    l.appendChild(t); $('ed').appendChild(l);
+  }
+  let art = null;
+  btn.addEventListener('click', async () => {
+    if (!art) return;
+    const next = Object.assign({}, cur, { rev: cur.rev + 1 });
+    for (const k of KEYS) next[k] = boxes[k].value.replace(/\r/g, '').replace(/^\n+|\s+$/g, '');
+    if (KEYS.every(k => next[k] === cur[k])) { say('Nothing changed.'); return; }
+    // The platform reset, never another head <style> (browser extensions inject their own there).
+    const own = [].slice.call(document.head.querySelectorAll('style')).map(s => s.textContent).filter(t => /^:root\{color-scheme:light;box-sizing:border-box/.test(t))[0];
+    const reset = own || ':root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}';
+    const doc = '<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>' + reset + '</style></head><body>' + build(next) + '</body></html>';
+    btn.disabled = true; say('Saving…');
+    try { await art.publish(doc); say('Saved rev ' + next.rev + '. Reloading…'); }
+    catch (e) {
+      const code = e && e.code;
+      say(code === 'conflict' ? 'Someone saved a newer version; loading it. Copy your text first if you need it.'
+        : code === 'not_writer' || code === 'not_granted' ? 'You can view these diagrams but not save them.' : 'Save failed: ' + (code || e));
+      btn.disabled = false;
+    }
+  });
+  if (!(window.claude && window.claude.use)) { say('Saving works only when this page is opened as a Claude artifact.'); return; }
+  window.claude.use('artifact').then(a => { art = a; btn.disabled = !a; if (!a) say('Saving isn’t available in this view.'); });
+}
+main();</script>
