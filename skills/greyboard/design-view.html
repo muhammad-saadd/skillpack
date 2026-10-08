@@ -1,0 +1,123 @@
+<!--
+  greyboard design-view template. Fill the {{slots}}, delete this comment, ship.
+  Self-contained: no build, no CDN, no external assets. Opens in any browser,
+  and pastes straight into an Artifact. Purpose: let the user SEE the plan and
+  reasoning before code is written. Keep it scannable — not a document.
+
+  This carries the "Signal Box" look (Cascadia mono + Segoe UI, amber signal
+  accent). The three slots are PER-TASK — do not paste the fixed greyboard arc here;
+  the diagram should show THIS task's flow/architecture/state.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Design — {{TASK NAME}}</title>
+<style>
+  :root {
+    --ground:#EDEBE6; --panel:#F7F5F1; --panel-2:#FBFAF8;
+    --ink:#211E18; --ink-soft:#6B6553; --ink-faint:#928B77;
+    --line:#D9D4C9; --line-2:#E6E1D7;
+    --amber:#A96C10; --amber-br:#C1841C; --amber-dim:rgba(169,108,16,.10);
+    --ok:#1B806A; --ok-dim:rgba(27,128,106,.10);
+    --warn:#B8442B; --warn-dim:rgba(184,68,43,.09);
+    --mono:"Cascadia Code","Cascadia Mono",ui-monospace,"Consolas",monospace;
+    --sans:"Segoe UI Variable Display","Segoe UI",system-ui,-apple-system,sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground:#131109; --panel:#1C190F; --panel-2:#26220F;
+      --ink:#EFE8D4; --ink-soft:#A79E85; --ink-faint:#726B57;
+      --line:#35301F; --line-2:#2A2614;
+      --amber:#F0B454; --amber-br:#F8CE80; --amber-dim:rgba(240,180,84,.11);
+      --ok:#5CC2A8; --ok-dim:rgba(92,194,168,.12);
+      --warn:#E27C5C; --warn-dim:rgba(226,124,92,.11);
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground:#131109; --panel:#1C190F; --panel-2:#26220F;
+    --ink:#EFE8D4; --ink-soft:#A79E85; --ink-faint:#726B57;
+    --line:#35301F; --line-2:#2A2614;
+    --amber:#F0B454; --amber-br:#F8CE80; --amber-dim:rgba(240,180,84,.11);
+    --ok:#5CC2A8; --ok-dim:rgba(92,194,168,.12);
+    --warn:#E27C5C; --warn-dim:rgba(226,124,92,.11);
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--ground); color:var(--ink);
+    font-family:var(--sans); line-height:1.55; font-size:15px; }
+  main { max-width:820px; margin:0 auto; padding:2.4rem 1.25rem 4rem; }
+  code, .mono { font-family:var(--mono); }
+
+  .eyebrow { font-family:var(--mono); font-size:11px; letter-spacing:.2em;
+    text-transform:uppercase; color:var(--amber); margin:0 0 .5rem; }
+  h1 { font-family:var(--mono); font-weight:700; font-size:1.7rem;
+    letter-spacing:-.01em; margin:0 0 .3rem; text-wrap:balance; }
+  .sub { color:var(--ink-soft); margin:0 0 2rem; max-width:62ch; }
+
+  section { background:var(--panel); border:1px solid var(--line);
+    border-radius:12px; padding:1.15rem 1.3rem; margin:0 0 1.1rem;
+    box-shadow:0 1px 2px rgba(0,0,0,.05); }
+  h2 { font-family:var(--mono); font-size:.72rem; text-transform:uppercase;
+    letter-spacing:.14em; color:var(--amber); margin:0 0 .85rem; }
+
+  ol.steps { margin:0; padding:0; list-style:none; counter-reset:s; }
+  ol.steps li { position:relative; padding:.3rem 0 .3rem 2rem; counter-increment:s; }
+  ol.steps li::before { content:counter(s); position:absolute; left:0; top:.3rem;
+    font-family:var(--mono); font-weight:700; font-size:.8rem; color:var(--amber);
+    width:1.3rem; text-align:right; }
+
+  ul.why { margin:0; padding:0; list-style:none; display:grid; gap:.6rem; }
+  ul.why li { display:flex; gap:.6rem; align-items:baseline; }
+  .tag { flex:none; font-family:var(--mono); font-size:.68rem; letter-spacing:.04em;
+    padding:.12rem .55rem; border-radius:999px; border:1px solid var(--line);
+    color:var(--ink-soft); background:var(--panel-2); }
+  .tag.ok   { color:var(--ok);   border-color:color-mix(in srgb,var(--ok) 40%,var(--line));   background:var(--ok-dim); }
+  .tag.warn { color:var(--warn); border-color:color-mix(in srgb,var(--warn) 40%,var(--line)); background:var(--warn-dim); }
+
+  .diagram { overflow-x:auto; padding-bottom:.3rem; }
+  .flow { display:flex; align-items:center; gap:.55rem; flex-wrap:wrap; min-width:min-content; }
+  .node { font-family:var(--mono); font-size:.85rem; border:1px solid var(--line);
+    background:var(--panel-2); border-radius:8px; padding:.5rem .85rem; white-space:nowrap; }
+  .node.hot { border-color:var(--amber); background:var(--amber-dim); color:var(--amber-br); }
+  .arrow { color:var(--amber); font-family:var(--mono); }
+</style>
+</head>
+<body>
+<main>
+  <p class="eyebrow">greyboard · design view — approve before code</p>
+  <h1>{{TASK NAME}}</h1>
+  <p class="sub">{{one line: the problem this solves}}</p>
+
+  <section>
+    <h2>Plan — what I'll do</h2>
+    <ol class="steps">
+      <li>{{step}}</li>
+      <li>{{step}}</li>
+      <li>{{step}}</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>Reasoning — why this way</h2>
+    <ul class="why">
+      <li><span class="tag ok">chose</span><span>{{approach}} — {{because}}</span></li>
+      <li><span class="tag warn">rejected</span><span>{{alternative}} — {{why not}}</span></li>
+      <li><span class="tag warn">trade-off</span><span>{{what we accept}}</span></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Diagram — {{flow / architecture / state}}</h2>
+    <!-- THIS task's shape. Swap this simple flow for inline <svg> when the shape needs it. -->
+    <div class="diagram">
+      <div class="flow">
+        <span class="node">{{A}}</span><span class="arrow">→</span>
+        <span class="node hot">{{B}}</span><span class="arrow">→</span>
+        <span class="node">{{C}}</span>
+      </div>
+    </div>
+  </section>
+</main>
+</body>
+</html>
